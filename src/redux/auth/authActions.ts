@@ -2,7 +2,7 @@
 import setAuthToken from '../../utils/setAuthToken';
 import jwt_decode from 'jwt-decode'*/
 
-import { IAuth } from '../../interfaces/IAuth';
+import IAuth from '../../interfaces/IAuth';
 
 import { ActionTypes, UserAuthSuccessAction, UserAuthFailureAction } from "./authTypes";
 

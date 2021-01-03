@@ -16,24 +16,28 @@ import { createMuiTheme, CssBaseline, ThemeProvider } from '@material-ui/core';
 import { trTR } from '@material-ui/core/locale';
 
 //Redux
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import redux from "./redux";
 import AppState from "./redux/appState";
-
-
+import { getLocalStorage } from './utils/LocalStorage';
+import { AUTH_LOCAL_STORAGE } from './core/Constants';
+import { SuccessAction, FailureAction } from './redux/auth/authActions';
+import { axiosInterceptor } from './core/Axios';
 
 
 const App: React.FC = () => {
 
-  /*
+  
   const dispatch = useDispatch();
   const lsAuth = getLocalStorage(AUTH_LOCAL_STORAGE);
-  console.log("lsAuth", lsAuth);
+
   if(lsAuth !== null)  dispatch(SuccessAction(lsAuth));
-  const loggedIn:boolean = useSelector((state: AppState) => state.authReducers.loggedIn);
+  const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
   const token = useSelector((state: AppState) => state.authReducers.token);
-  console.log("token", token);
-  if(token != null) axiosInterceptor(token);*/
+  if(token != null) axiosInterceptor(token);
+
+  console.log("Local Stroge Auth: ", lsAuth);
+  console.log("Redux Token: ", token);
 
   /*if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     // dark mode
@@ -55,7 +59,6 @@ const App: React.FC = () => {
     },
   }, trTR);
 
-  const loggedIn = true;
 
   return (
     <ThemeProvider theme={theme}>

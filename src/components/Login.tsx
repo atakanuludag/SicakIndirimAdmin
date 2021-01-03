@@ -9,6 +9,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHistory } from "react-router-dom";
+
+import AuthService from '../services/AuthService';
+import IAuth from '../interfaces/IAuth';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { SuccessAction, FailureAction } from '../redux/auth/authActions';
+import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
+import { AUTH_LOCAL_STORAGE } from '../core/Constants';
+import AppState from '../redux/appState';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,7 +42,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login: React.FC = () => {
+
+  const history = useHistory();
+  const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
+  if(loggedIn) history.push('/dashboard');
+
+  const service = new AuthService();
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const [loginData, setloginData] = React.useState({
+    username: "atakanuludag",
+    password: "123456"
+  });
+  const [loading, setLoading] = React.useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setloginData({ ...loginData, [e.target.name]: e.target.value });
+  }
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    service.getToken(loginData).then((ret: IAuth | null) => {
+      /*console.log("Login handleFormSubmit()", ret);
+
+      if(ret === null) return;
+
+      dispatch(SuccessAction(ret));
+      setLocalStorage(AUTH_LOCAL_STORAGE, ret);
+      
+      history.push('/dashboard');*/
+    });
+  }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -43,19 +88,22 @@ const Login: React.FC = () => {
         <Typography component="h1" variant="h5">
           Admin Panel
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleFormSubmit} noValidate>
           <TextField
+            disabled={loading}
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
+            id="username"
             label="Kullanıcı Adı"
-            name="email"
-            autoComplete="email"
+            name="username"
+            autoComplete="username"
             autoFocus
+            value={loginData.username} onChange={handleInputChange}
           />
           <TextField
+            disabled={loading}
             variant="outlined"
             margin="normal"
             required
@@ -65,19 +113,22 @@ const Login: React.FC = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={loginData.password} onChange={handleInputChange}
           />
           <FormControlLabel
+            disabled={loading}
             control={<Checkbox value="remember" color="primary" />}
             label="Beni hatırla"
           />
           <Button
+            disabled={loading}
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
           >
-            GİRİŞ
+            {loading ? <CircularProgress size={25} /> : "GİRİŞ"}
           </Button>
         </form>
       </div>
