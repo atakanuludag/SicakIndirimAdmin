@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import AppState from "../redux/appState";
 
 interface IProps extends RouteProps {
+    name: string;
     component: React.ComponentType<any>
 }
 

@@ -1,9 +1,14 @@
 import { ActionTypes, ThemeState, ThemeActions } from "./themeTypes";
+import { setLocalStorage, getLocalStorage } from '../../utils/LocalStorage';
+import { THEME_SETTINGS_LOCAL_STORAGE } from '../../core/Constants';
+
+const menuOpenLs = getLocalStorage(THEME_SETTINGS_LOCAL_STORAGE.MENU_OPEN_KEY);
+const darkModeLs = getLocalStorage(THEME_SETTINGS_LOCAL_STORAGE.DARK_MODE_KEY);
 
 
 const initialState: ThemeState = {
-    menuOpen: true,
-    darkMode: false
+    menuOpen: menuOpenLs !== null ? menuOpenLs : true, 
+    darkMode: darkModeLs !== null ? darkModeLs : false
 };
 
 const reducer = (
@@ -12,11 +17,13 @@ const reducer = (
 ): ThemeState => {
     switch (action.type) {
         case ActionTypes.TOGGLE_MENU:
+            setLocalStorage(THEME_SETTINGS_LOCAL_STORAGE.MENU_OPEN_KEY, !state.menuOpen);
             return { 
                 ...state,
                 menuOpen: !state.menuOpen
             };
         case ActionTypes.DARK_MODE:
+            setLocalStorage(THEME_SETTINGS_LOCAL_STORAGE.DARK_MODE_KEY, !state.darkMode);
             return { 
                 ...state,
                 darkMode: !state.darkMode

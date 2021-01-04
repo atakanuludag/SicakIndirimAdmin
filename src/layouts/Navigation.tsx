@@ -19,13 +19,14 @@ import PersonIcon from '@material-ui/icons/Person';
 import HotDealIcon from '@material-ui/icons/Whatshot';
 import CategoryIcon from '@material-ui/icons/Category';
 
+import { useHistory } from "react-router-dom";
+
 import Switch from '@material-ui/core/Switch';
 import { FormControlLabel } from '@material-ui/core';
 
 import { ThemeToggleMenuAction, ThemeDarkModeAction } from '../redux/theme/themeActions';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from "../redux/appState";
-
 
 interface INavigation {
     classes: any;
@@ -35,9 +36,14 @@ const Navigation = (props: INavigation): React.ReactElement => {
 
     const { classes } = props;
 
+    const history = useHistory();
     const dispatch = useDispatch();
     const menuOpen = useSelector((state: AppState) => state.themeReducers.menuOpen);
     const darkMode = useSelector((state: AppState) => state.themeReducers.darkMode);
+
+    const handleNavigationButton = (link: string) => {
+        history.push(`/${link}`);
+    }
 
 
     return (
@@ -70,10 +76,6 @@ const Navigation = (props: INavigation): React.ReactElement => {
                         label={`Karanlık mod ${darkMode ? 'açık' : 'kapalı'}`}
                     />
 
-
-
-
-
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />
@@ -105,32 +107,32 @@ const Navigation = (props: INavigation): React.ReactElement => {
 
                 <Divider />
                 <List>
-                    <ListItem button>
+                    <ListItem button onClick={() => handleNavigationButton("dashboard")}>
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem button onClick={() => handleNavigationButton("users")}>
                         <ListItemIcon>
                             <PersonIcon />
                         </ListItemIcon>
                         <ListItemText primary="Kullanıcılar" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem button onClick={() => handleNavigationButton("hotDeals")}>
                         <ListItemIcon>
                             <HotDealIcon />
                         </ListItemIcon>
                         <ListItemText primary="Sıcak Fırsatlar" />
                     </ListItem>
 
-                    <ListItem button>
-                        <ListItemIcon>
-                            <CategoryIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Kategoriler" />
+                    <ListItem button onClick={() => handleNavigationButton("categories")}>
+                    <ListItemIcon>
+                        <CategoryIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Kategoriler" />
                     </ListItem>
 
 

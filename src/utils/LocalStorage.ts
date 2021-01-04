@@ -26,9 +26,11 @@ export const getLocalStorage = (lsConstant: ILocalStorage) => {
                 return null;
             }
 
-            if (LocalStorageTimestamp - parseLs.timestamp > lsConstant.expired * 60 * 60 * 1000) {
-                localStorage.removeItem(lsConstant.key);
-                return null;
+            if(lsConstant.expired){
+                if (LocalStorageTimestamp - parseLs.timestamp > lsConstant.expired * 60 * 60 * 1000) {
+                    localStorage.removeItem(lsConstant.key);
+                    return null;
+                }
             }
 
             return parseLs ? parseLs.data : null;

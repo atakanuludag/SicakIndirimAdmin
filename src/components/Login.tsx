@@ -16,8 +16,8 @@ import AuthService from '../services/AuthService';
 import IAuth from '../interfaces/IAuth';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { SuccessAction, FailureAction } from '../redux/auth/authActions';
-import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
+import { SuccessAction } from '../redux/auth/authActions';
+import { setLocalStorage } from '../utils/LocalStorage';
 import { AUTH_LOCAL_STORAGE } from '../core/Constants';
 import AppState from '../redux/appState';
 
@@ -66,14 +66,14 @@ const Login: React.FC = () => {
     setLoading(true);
 
     service.getToken(loginData).then((ret: IAuth | null) => {
-      /*console.log("Login handleFormSubmit()", ret);
+      console.log("Login handleFormSubmit()", ret);
 
       if(ret === null) return;
 
       dispatch(SuccessAction(ret));
       setLocalStorage(AUTH_LOCAL_STORAGE, ret);
       
-      history.push('/dashboard');*/
+      history.push('/dashboard');
     });
   }
 
