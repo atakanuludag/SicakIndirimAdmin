@@ -18,6 +18,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PersonIcon from '@material-ui/icons/Person';
 import HotDealIcon from '@material-ui/icons/Whatshot';
 import CategoryIcon from '@material-ui/icons/Category';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import NightsStayIcon from '@material-ui/icons/NightsStay';
 
 import { useHistory } from "react-router-dom";
 
@@ -73,7 +75,7 @@ const Navigation = (props: INavigation): React.ReactElement => {
                                 inputProps={{ 'aria-label': 'primary checkbox' }}
                             />
                         }
-                        label={`Karanlık mod ${darkMode ? 'açık' : 'kapalı'}`}
+                        label={darkMode ? <NightsStayIcon /> : <WbSunnyIcon />}
                     />
 
                     <IconButton color="inherit">

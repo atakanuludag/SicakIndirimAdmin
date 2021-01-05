@@ -11,8 +11,8 @@ const defaultOptions = {
 let instance = axios.create(defaultOptions);
 
 export const axiosInterceptor = (token: string) => {
-    instance.interceptors.request.use(function (config) {
-        config.headers.token =  token ? token : '';
+    instance.interceptors.request.use((config) => {
+        config.headers["Authorization"] = token ? `Bearer ${token}` : '';
         return config;
     });
 }

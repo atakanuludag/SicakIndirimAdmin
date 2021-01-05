@@ -10,11 +10,9 @@ import { Provider } from 'react-redux';
 import redux from "./redux";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={redux}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={redux}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 

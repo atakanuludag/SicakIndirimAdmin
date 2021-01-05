@@ -1,16 +1,15 @@
-import axios from 'axios';
-import { API_URL } from '../core/Constants';
+import axios from '../core/Axios';
 import IAuth from '../interfaces/IAuth';
 
 export default class AuthService {
 
     getToken = async (state: any): Promise<IAuth | null> => {
         try {
-            const ret = await axios.post(`${API_URL}/user/login`, {
+            const ret = await axios.post(`/user/login`, {
                 username: state.username,
                 password: state.password
             })
-            return ret.data ? ret.data : null;
+            return ret.data ? ret.data.access_token : null;
         }
         catch(err){
             console.log("AuthService getToken() Err", err);

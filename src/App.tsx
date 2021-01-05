@@ -8,7 +8,7 @@ import Theme from './Theme';
 //Components
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import Categories from './components/Categories';
+import Category from './components/Category';
 
 
 //Redux
@@ -44,7 +44,7 @@ const App: React.FC = () => {
         }} />
         <Route path="/login" name="Login"  component={Login} />
         <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard} />
-        <PrivateRoute path="/categories" name="Categories" component={Categories} />
+        <PrivateRoute path="/categories" name="Categories" component={Category} />
       </Router>
     </Theme>
 
