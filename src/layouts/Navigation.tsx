@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { FormControlLabel, Menu, MenuItem } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,10 +8,8 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -20,12 +19,8 @@ import HotDealIcon from '@material-ui/icons/Whatshot';
 import CategoryIcon from '@material-ui/icons/Category';
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 import NightsStayIcon from '@material-ui/icons/NightsStay';
-
-import { useHistory } from "react-router-dom";
-
 import Switch from '@material-ui/core/Switch';
-import { FormControlLabel } from '@material-ui/core';
-
+import { useHistory } from "react-router-dom";
 import { ThemeToggleMenuAction, ThemeDarkModeAction } from '../redux/theme/themeActions';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from "../redux/appState";
@@ -46,6 +41,15 @@ const Navigation = (props: INavigation): React.ReactElement => {
     const handleNavigationButton = (link: string) => {
         history.push(`/${link}`);
     }
+
+    const [userMenuAnchorEl, setUserMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+    const handleUserMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setUserMenuAnchorEl(event.currentTarget);
+    };
+    
+    const handleUserMenuClose = () => {
+        setUserMenuAnchorEl(null);
+    };
 
 
     return (
@@ -78,11 +82,19 @@ const Navigation = (props: INavigation): React.ReactElement => {
                         label={darkMode ? <NightsStayIcon /> : <WbSunnyIcon />}
                     />
 
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
+                    <IconButton color="inherit" aria-controls="user-menu" aria-haspopup="true" onClick={handleUserMenuClick}>
+                        <PersonIcon />
                     </IconButton>
+                    <Menu
+                        id="user-menu"
+                        anchorEl={userMenuAnchorEl}
+                        keepMounted
+                        open={Boolean(userMenuAnchorEl)}
+                        onClose={handleUserMenuClose}
+                        >
+                        <MenuItem onClick={handleUserMenuClose}>Profilim</MenuItem>
+                        <MenuItem onClick={handleUserMenuClose}>Çıkış</MenuItem>
+                    </Menu>
 
 
                 </Toolbar>
