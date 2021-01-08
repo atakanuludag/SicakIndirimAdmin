@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
 import './styles/global.scss';
+import { ToastContainer } from 'react-toastify';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -12,6 +12,7 @@ import redux from "./redux";
 ReactDOM.render(
   <Provider store={redux}>
     <App />
+    <ToastContainer />
   </Provider>,
   document.getElementById('root')
 );

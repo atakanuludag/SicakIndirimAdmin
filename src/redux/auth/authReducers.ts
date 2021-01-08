@@ -1,6 +1,6 @@
 import { ActionTypes, AuthState, AuthActions } from "./authTypes";
 //import { Action } from "redux";
-import { act } from "react-dom/test-utils";
+//import { act } from "react-dom/test-utils";
 
 //Mutable & immutable
 //Reducers içinde bir apiye bağlanılmaz veya veritabanı işlemleri yapılmaz.

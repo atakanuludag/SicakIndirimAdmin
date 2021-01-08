@@ -17,19 +17,17 @@ import AppState from "./redux/appState";
 import { getLocalStorage } from './utils/LocalStorage';
 import { AUTH_LOCAL_STORAGE } from './core/Constants';
 import { SuccessAction } from './redux/auth/authActions';
-import { axiosInterceptor } from './core/Axios';
-
+import { axiosTokenInterceptor } from './core/Axios';
 
 const App: React.FC = () => {
 
-
   const dispatch = useDispatch();
   const lsAuth = getLocalStorage(AUTH_LOCAL_STORAGE);
-
+  
   if (lsAuth !== null) dispatch(SuccessAction(lsAuth));
   const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
   const token = useSelector((state: AppState) => state.authReducers.token);
-  if (token != null) axiosInterceptor(token);
+  if (token != null) axiosTokenInterceptor(token);
 
   console.log("Local Stroge Auth: ", lsAuth);
   console.log("Redux Token: ", token);

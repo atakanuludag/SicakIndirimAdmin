@@ -1,5 +1,15 @@
 import { Moment } from 'moment';
 
+export class CategoryForm {
+    title: string;
+    description: string;
+
+    constructor(option: CategoryForm) {
+        this.title = option.title;
+        this.description = option.description;
+    }
+}
+
 export default class CategoryItem {
     id: number | string;
     title: string;

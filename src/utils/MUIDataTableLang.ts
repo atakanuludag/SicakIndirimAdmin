@@ -10,7 +10,7 @@ const MUIDataTableLang = () => {
                 next: "İleri",
                 previous: "Geri",
                 rowsPerPage: "Sayfa başına gösterilen:",
-                displayRows: "of",
+                displayRows: "/",
             },
             toolbar: {
                 search: "Arama",
@@ -25,11 +25,11 @@ const MUIDataTableLang = () => {
                 reset: "Temizle",
             },
             viewColumns: {
-                title: "Show Columns",
-                titleAria: "Show/Hide Table Columns",
+                title: "Sütunları Göster",
+                titleAria: "Tablo Sütunlarını Göster/Gizle",
             },
             selectedRows: {
-                text: "row(s) selected",
+                text: "satır(lar) seçildi",
                 delete: "Sil",
                 deleteAria: "Delete Selected Rows",
             },

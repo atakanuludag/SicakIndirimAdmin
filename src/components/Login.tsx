@@ -64,7 +64,7 @@ const Login: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
+    //https://stackoverflow.com/questions/41930443/how-to-async-await-redux-thunk-actions
     service.getToken(loginData).then((ret: IAuth | null) => {
       console.log("Login handleFormSubmit()", ret);
 
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
         <Typography component="h1" variant="h5">
           Admin Panel
         </Typography>
-        <form className={classes.form} onSubmit={handleFormSubmit} noValidate>
+        <form className={classes.form} onSubmit={handleFormSubmit} autoComplete="off" noValidate>
           <TextField
             disabled={loading}
             variant="outlined"
