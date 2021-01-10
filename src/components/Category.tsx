@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import MUIDataTable, { MUIDataTableColumnDef } from "mui-datatables";
+import MUIDataTable, { MUIDataTableColumnDef, MUIDataTableMeta } from "mui-datatables";
+import { toast } from 'react-toastify';
 import CategoryService from "../services/CategoryService";
 import CategoryItem, { CategoryForm } from "../models/CategoryItem";
 import MUIDataTableLang from "../utils/MUIDataTableLang";
@@ -12,14 +13,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 const Category: React.FC = () => {
   
   const service = new CategoryService();
-  const [items, setItems] = useState<CategoryItem[]>(new Array<CategoryItem>());
-  const [form, setForm] = useState<CategoryForm>({
+
+  const initialFormState: CategoryForm = {
+    id: undefined,
     title: "",
     description: ""
-  });
+  };
+
+  const [items, setItems] = useState<CategoryItem[]>(new Array<CategoryItem>());
+  const [form, setForm] = useState<CategoryForm>(initialFormState);
   const [loading, setLoading] = React.useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   //const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -37,29 +41,45 @@ const Category: React.FC = () => {
     getItems();
   }, []);
 
-  const handleDialogClose = () => setDialogOpen(false);
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setForm(initialFormState);
+  }
+
   const handleDialogOpen = () => setDialogOpen(true);
   
-  const handleSnackBarClose = () => setSnackBarOpen(false);
-  const handleSnackBarOpen = () => setSnackBarOpen(true);
-  
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  const handleUpdateButton = (value: any, tableMeta: MUIDataTableMeta) =>{
+    const row: any = tableMeta.tableData[tableMeta.rowIndex];
+    const { id, title, description } = row;
+    setForm({ ...form, id, title, description });
+    handleDialogOpen();
   }
 
   const handleFormSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    const create = await service.create(form);
+    if(form.id) await service.update(form);
+    else await service.create(form)
+    toast.success("Başarıyla kayıt edildi.");
     handleDialogClose();
-    handleSnackBarOpen();
+    setForm(initialFormState);
     setLoading(false);
   }
 
 
   const columns: MUIDataTableColumnDef[] = [
+    {
+      name: "id",
+      label: "ID",
+      options: {
+        display: false
+      }
+    },
     {
       name: "title",
       label: "Kategori",
@@ -84,18 +104,17 @@ const Category: React.FC = () => {
         sort: false,
         empty: false,
         //setCellProps: () => ({ style: { minWidth: "1px", maxWidth: "1px" }}),
-
-        customBodyRender: () => {
+        customBodyRender: (value, tableMeta, updateValue) => {
           return (
             <React.Fragment>
               <Tooltip title={"Düzenle"}>
-                <IconButton onClick={handleDialogOpen}>
+                <IconButton onClick={() => handleUpdateButton(value, tableMeta)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
 
               <Tooltip title={"Sil"}>
-                <IconButton onClick={handleDialogOpen}>
+                <IconButton onClick={() => handleDialogOpen()}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -108,8 +127,9 @@ const Category: React.FC = () => {
   ];
 
 
-  const options = {
+  const options: any = {
     ...MUIDataTableLang(),
+    selectableRows: false,
     customToolbar: () => {
       return (
         <Tooltip title={"Yeni Ekle"}>

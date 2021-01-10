@@ -18,7 +18,7 @@ export default class CategoryService {
 
     public getItems = async (): Promise<CategoryItem[]> => {
         try {
-            const ret = await axios.post(`/category`);
+            const ret = await axios.get(`/category`);
             return ret.data.map(this.itemToModel);
         }
         catch(err){
@@ -34,6 +34,21 @@ export default class CategoryService {
         }
         catch(err){
             console.log("CategoryService create() Err", err);
+            return false;
+        }
+    }
+
+    public update = async (form: CategoryForm): Promise<boolean> => {
+        try {
+            const ret = await axios.patch(`/category`, form, {
+                params: {
+                    id: form.id
+                }
+            });
+            return ret.status === 200 ? true : false;
+        }
+        catch(err){
+            console.log("CategoryService update() Err", err);
             return false;
         }
     }

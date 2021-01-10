@@ -1,10 +1,12 @@
 import { Moment } from 'moment';
 
 export class CategoryForm {
+    id?: string;
     title: string;
     description: string;
 
     constructor(option: CategoryForm) {
+        this.id = option.id;
         this.title = option.title;
         this.description = option.description;
     }

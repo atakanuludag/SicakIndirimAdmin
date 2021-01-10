@@ -1,4 +1,4 @@
-import { ActionTypes, ToogleMenuAction, DarkModeAction } from "./themeTypes";
+import { ActionTypes, ToogleMenuAction, DarkModeAction, LoadingAction } from "./themeTypes";
 
 export const ThemeToggleMenuAction = (): ToogleMenuAction => ({
     type: ActionTypes.TOGGLE_MENU
@@ -6,4 +6,9 @@ export const ThemeToggleMenuAction = (): ToogleMenuAction => ({
 
 export const ThemeDarkModeAction = (): DarkModeAction => ({
     type: ActionTypes.DARK_MODE
+});
+
+export const ThemeLoadingAction = (payload: boolean): LoadingAction => ({
+    type: ActionTypes.LOADING,
+    payload
 });

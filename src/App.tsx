@@ -5,6 +5,9 @@ import PrivateRoute from './core/PrivateRoute';
 //React Material Theme
 import Theme from './Theme';
 
+import Loading from './components/shared/Loading';
+
+
 //Components
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -17,12 +20,14 @@ import AppState from "./redux/appState";
 import { getLocalStorage } from './utils/LocalStorage';
 import { AUTH_LOCAL_STORAGE } from './core/Constants';
 import { SuccessAction } from './redux/auth/authActions';
-import { axiosTokenInterceptor } from './core/Axios';
+import { axiosTokenInterceptor, axiosRequestLoading } from './core/Axios';
 
 const App: React.FC = () => {
 
   const dispatch = useDispatch();
   const lsAuth = getLocalStorage(AUTH_LOCAL_STORAGE);
+
+  axiosRequestLoading(dispatch);
   
   if (lsAuth !== null) dispatch(SuccessAction(lsAuth));
   const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
@@ -44,6 +49,7 @@ const App: React.FC = () => {
         <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard} />
         <PrivateRoute path="/categories" name="Categories" component={Category} />
       </Router>
+      <Loading/>
     </Theme>
 
   );
