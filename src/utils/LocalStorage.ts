@@ -8,7 +8,15 @@ export const setLocalStorage = (lsConstant: ILocalStorage, data: any) => {
         const ls: any = { data: data, timestamp: LocalStorageTimestamp, CacheVersion: CacheVersion };
         localStorage.setItem(lsConstant.key, JSON.stringify(ls));
     } catch (error) {
-        console.log("LocalStorage.ts setLocalStorage Err", error);
+        console.log("[LocalStorage] setLocalStorage Err", error);
+    }
+};
+
+export const removeLocalStorage = (lsConstant: ILocalStorage) => {
+    try {
+        localStorage.removeItem(lsConstant.key);
+    } catch (error) {
+        console.log("[LocalStorage] removeLocalStorage Err", error);
     }
 };
 
@@ -39,7 +47,7 @@ export const getLocalStorage = (lsConstant: ILocalStorage) => {
         return null;
 
     } catch (error) {
-        console.log("LocalStorage.ts getLocalStorage Err", error);
+        console.log("[LocalStorage] getLocalStorage Err", error);
         return null;
     }
 };

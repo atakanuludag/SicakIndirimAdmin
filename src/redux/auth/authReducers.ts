@@ -1,4 +1,6 @@
 import { ActionTypes, AuthState, AuthActions } from "./authTypes";
+import IAuth from "../../interfaces/IAuth";
+
 //import { Action } from "redux";
 //import { act } from "react-dom/test-utils";
 
@@ -9,7 +11,7 @@ import { ActionTypes, AuthState, AuthActions } from "./authTypes";
 
 const initialState: AuthState = {
     loggedIn: false,
-    user: {},
+    user: {} as IAuth,
     token: null
 };
 
@@ -22,10 +24,23 @@ const reducer = (
             return { 
                 ...state,
                 loggedIn: true,
-                token: action.payload
+                token: action.payload.access_token,
+                user: action.payload
             };
         case ActionTypes.USER_AUTH_FAILURE:
-            return { ...state, loggedIn: false, token: null };
+            return { 
+                ...state, 
+                loggedIn: false, 
+                token: null,
+                user: {} as IAuth
+            };
+        case ActionTypes.USER_LOGOUT:
+            return { 
+                ...state, 
+                loggedIn: false, 
+                token: null,
+                user: {} as IAuth
+            };
         default:
             return state;
     }

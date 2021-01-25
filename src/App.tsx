@@ -49,7 +49,7 @@ const App: React.FC = () => {
         <PrivateRoute path="/dashboard" name="Dashboard" component={Dashboard} />
         <PrivateRoute path="/categories" name="Categories" component={Category} />
       </Router>
-      <Loading/>
+      {/* <Loading/> */}
     </Theme>
 
   );

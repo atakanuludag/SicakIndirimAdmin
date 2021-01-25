@@ -1,6 +1,6 @@
 import IAuth from '../../interfaces/IAuth';
 
-import { ActionTypes, UserAuthSuccessAction, UserAuthFailureAction } from "./authTypes";
+import { ActionTypes, UserAuthSuccessAction, UserAuthFailureAction, UserLogoutAction } from "./authTypes";
 
 export const SuccessAction = (auth: IAuth): UserAuthSuccessAction => ({
     type: ActionTypes.USER_AUTH_SUCCESS,
@@ -8,6 +8,9 @@ export const SuccessAction = (auth: IAuth): UserAuthSuccessAction => ({
 });
 
 export const FailureAction = (): UserAuthFailureAction => ({
-    type: ActionTypes.USER_AUTH_FAILURE,
-    payload: 1
+    type: ActionTypes.USER_AUTH_FAILURE
+});
+
+export const LogoutAction = (): UserLogoutAction => ({
+    type: ActionTypes.USER_LOGOUT
 });

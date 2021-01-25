@@ -22,9 +22,11 @@ import NightsStayIcon from '@material-ui/icons/NightsStay';
 import Switch from '@material-ui/core/Switch';
 import { useHistory } from "react-router-dom";
 import { ThemeToggleMenuAction, ThemeDarkModeAction } from '../redux/theme/themeActions';
+import { LogoutAction } from '../redux/auth/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from "../redux/appState";
-
+import { removeLocalStorage } from '../utils/LocalStorage';
+import { AUTH_LOCAL_STORAGE } from '../core/Constants';
 interface INavigation {
     classes: any;
 }
@@ -49,6 +51,12 @@ const Navigation = (props: INavigation): React.ReactElement => {
     
     const handleUserMenuClose = () => {
         setUserMenuAnchorEl(null);
+    };
+
+    const logout = () => {
+        dispatch(LogoutAction());
+        removeLocalStorage(AUTH_LOCAL_STORAGE);
+        history.push(`/login`);
     };
 
 
@@ -93,7 +101,7 @@ const Navigation = (props: INavigation): React.ReactElement => {
                         onClose={handleUserMenuClose}
                         >
                         <MenuItem onClick={handleUserMenuClose}>Profilim</MenuItem>
-                        <MenuItem onClick={handleUserMenuClose}>Çıkış</MenuItem>
+                        <MenuItem onClick={logout}>Çıkış</MenuItem>
                     </Menu>
 
 

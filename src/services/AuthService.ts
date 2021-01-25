@@ -9,7 +9,7 @@ export default class AuthService {
                 username: state.username,
                 password: state.password
             })
-            return ret.data ? ret.data.access_token : null;
+            return ret.data ? ret.data : null;
         }
         catch(err){
             console.log("AuthService getToken() Err", err);

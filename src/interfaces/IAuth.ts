@@ -1,4 +1,5 @@
 export default interface IAuth {
-    token: string;
-    userId: string;
+    access_token: string;
+    user_id: string;
+    roles: string[];
 }

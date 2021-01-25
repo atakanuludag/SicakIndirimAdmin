@@ -13,7 +13,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from "react-router-dom";
 
 import AuthService from '../services/AuthService';
-import IAuth from '../interfaces/IAuth';
+import Alerts from '../utils/Alerts';
+import { APP_URL } from '../core/Constants';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { SuccessAction } from '../redux/auth/authActions';
@@ -61,20 +62,30 @@ const Login: React.FC = () => {
     setloginData({ ...loginData, [e.target.name]: e.target.value });
   }
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //https://stackoverflow.com/questions/41930443/how-to-async-await-redux-thunk-actions
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    //https://stackoverflow.com/questions/41930443/how-to-async-await-redux-thunk-actions
-    service.getToken(loginData).then((ret: IAuth | null) => {
-      console.log("Login handleFormSubmit()", ret);
+   
+    const ret = await service.getToken(loginData);
+    console.log("[Login] handleFormSubmit()", ret);
 
-      if(ret === null) return;
+    if(ret === null) {
+      Alerts.errorAlert("Giriş yapılırken bir hata meydana geldi. Daha sonra tekrar deneyiniz.");
+      return;
+    }
 
-      dispatch(SuccessAction(ret));
-      setLocalStorage(AUTH_LOCAL_STORAGE, ret);
-      
-      history.push('/dashboard');
-    });
+    if(ret.roles.findIndex((role) => role === 'admin') < 0){
+      Alerts.errorAlert("Sadece adminler giriş yapabilir.");
+      window.location.href = APP_URL;
+      return;
+    }
+    
+    Alerts.successAlert("Başarıyla giriş yapıldı.");
+    dispatch(SuccessAction(ret));
+    setLocalStorage(AUTH_LOCAL_STORAGE, ret);
+    history.push('/dashboard');
   }
 
 
