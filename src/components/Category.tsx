@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import CategoryService from "../services/CategoryService";
 import CategoryItem, { CategoryForm } from "../models/CategoryItem";
 import MUIDataTableLang from "../utils/MUIDataTableLang";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@material-ui/core';
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -24,6 +24,7 @@ const Category: React.FC = () => {
   const [form, setForm] = useState<CategoryForm>(initialFormState);
   const [loading, setLoading] = React.useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
   //const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -43,32 +44,49 @@ const Category: React.FC = () => {
 
   const handleDialogClose = () => {
     setDialogOpen(false);
+    setRemoveDialogOpen(false);
     setForm(initialFormState);
   }
-
-  const handleDialogOpen = () => setDialogOpen(true);
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const handleUpdateButton = (value: any, tableMeta: MUIDataTableMeta) =>{
+  const handleTableUpdateButton = (tableMeta: MUIDataTableMeta) =>{
     const row: any = tableMeta.tableData[tableMeta.rowIndex];
     const { id, title, description } = row;
     setForm({ ...form, id, title, description });
-    handleDialogOpen();
+    setDialogOpen(true);
   }
+
+  const handleTableRemoveButton = (tableMeta: MUIDataTableMeta) =>{
+    const row: any = tableMeta.tableData[tableMeta.rowIndex];
+    const { id, title, description } = row;
+    setForm({ ...form, id, title, description });
+    setRemoveDialogOpen(true);
+  }
+
 
   const handleFormSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
-    if(form.id) await service.update(form);
-    else await service.create(form)
+    const items = form.id ? await service.update(form) : await service.create(form);
     toast.success("Başarıyla kayıt edildi.");
     handleDialogClose();
     setForm(initialFormState);
     setLoading(false);
+    items.length > 0 && setItems(items);
+  }
+
+  const handleRemoveFormSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const items = form.id ? await service.delete(form.id) : [];
+    toast.success("Başarıyla silindi.");
+    handleDialogClose();
+    setForm(initialFormState);
+    setLoading(false);
+    items.length > 0 && setItems(items);
   }
 
 
@@ -108,13 +126,13 @@ const Category: React.FC = () => {
           return (
             <React.Fragment>
               <Tooltip title={"Düzenle"}>
-                <IconButton onClick={() => handleUpdateButton(value, tableMeta)}>
+                <IconButton onClick={() => handleTableUpdateButton(tableMeta)}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>
 
               <Tooltip title={"Sil"}>
-                <IconButton onClick={() => handleDialogOpen()}>
+                <IconButton onClick={() => handleTableRemoveButton(tableMeta)}>
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
@@ -133,7 +151,7 @@ const Category: React.FC = () => {
     customToolbar: () => {
       return (
         <Tooltip title={"Yeni Ekle"}>
-          <IconButton onClick={handleDialogOpen}>
+          <IconButton onClick={() => setDialogOpen(true)}>
             <AddIcon />
           </IconButton>
         </Tooltip>
@@ -176,6 +194,24 @@ const Category: React.FC = () => {
           </Button>
             <Button type="submit" color="primary" disabled={loading}>
               Kaydet
+          </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+
+
+      <Dialog open={removeDialogOpen} onClose={handleDialogClose} aria-labelledby="form-dialog-title">
+        <form noValidate onSubmit={handleRemoveFormSubmit} autoComplete="off">
+          <DialogTitle id="form-dialog-title">Silme Onayı</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description"><strong>"{form.title}"</strong> adlı kategoriyi gerçekten silmek istiyor musunuz ?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose} color="primary" disabled={loading}>
+              Kapat
+          </Button>
+            <Button type="submit" color="primary" disabled={loading}>
+              Sil
           </Button>
           </DialogActions>
         </form>
