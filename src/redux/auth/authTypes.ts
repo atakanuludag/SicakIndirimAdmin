@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import IAuth from "../../interfaces/IAuth";
 
-export interface AuthState {
+export interface IAuthState {
     loggedIn: boolean;
     user: IAuth;
     token: string | null;
@@ -13,17 +13,17 @@ export enum ActionTypes {
     USER_LOGOUT = "USER_LOGOUT"
 }
 
-export interface UserAuthSuccessAction extends Action {
+export interface IUserAuthSuccessAction extends Action {
     type: ActionTypes.USER_AUTH_SUCCESS;
     payload: IAuth;
 }
 
-export interface UserAuthFailureAction extends Action {
+export interface IUserAuthFailureAction extends Action {
     type: ActionTypes.USER_AUTH_FAILURE;
 }
 
-export interface UserLogoutAction extends Action {
+export interface IUserLogoutAction extends Action {
     type: ActionTypes.USER_LOGOUT;
 }
 
-export type AuthActions = UserAuthSuccessAction | UserAuthFailureAction | UserLogoutAction;
+export type AuthActions = IUserAuthSuccessAction | IUserAuthFailureAction | IUserLogoutAction;

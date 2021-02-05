@@ -1,27 +1,33 @@
 import { Action } from "redux";
 
-export interface ThemeState {
+export interface IThemeState {
     menuOpen: boolean;
     darkMode: boolean;
     loading: boolean;
+    routerTitle: string;
 }
 
 export enum ActionTypes {
     TOGGLE_MENU = "TOGGLE_SIDE_MENU",
     DARK_MODE = "DARK_MODE",
-    LOADING = "LOADING"
+    LOADING = "LOADING",
+    ROUTER_TITLE = "ROUTER_TITLE"
 }
 
-export interface ToogleMenuAction extends Action {
+export interface IToogleMenuAction extends Action {
     type: ActionTypes.TOGGLE_MENU;
 }
-export interface DarkModeAction extends Action {
+export interface IDarkModeAction extends Action {
     type: ActionTypes.DARK_MODE;
 }
-export interface LoadingAction extends Action {
+export interface ILoadingAction extends Action {
     type: ActionTypes.LOADING;
     payload: boolean;
 }
+export interface IRouterTitleAction extends Action {
+    type: ActionTypes.ROUTER_TITLE;
+    payload: string;
+}
 
 
-export type ThemeActions = ToogleMenuAction | DarkModeAction | LoadingAction;
+export type ThemeActions = IToogleMenuAction | IDarkModeAction | ILoadingAction | IRouterTitleAction;

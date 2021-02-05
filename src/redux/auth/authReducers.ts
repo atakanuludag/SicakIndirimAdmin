@@ -1,4 +1,4 @@
-import { ActionTypes, AuthState, AuthActions } from "./authTypes";
+import { ActionTypes, IAuthState, AuthActions } from "./authTypes";
 import IAuth from "../../interfaces/IAuth";
 
 //import { Action } from "redux";
@@ -9,16 +9,16 @@ import IAuth from "../../interfaces/IAuth";
 //Reducers'in amacı state bilgisini döndürmektir.
 
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
     loggedIn: false,
     user: {} as IAuth,
     token: null
 };
 
 const reducer = (
-    state: AuthState = initialState,
+    state: IAuthState = initialState,
     action: AuthActions
-): AuthState => {
+): IAuthState => {
     switch (action.type) {
         case ActionTypes.USER_AUTH_SUCCESS:
             return { 

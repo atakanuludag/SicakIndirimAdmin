@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AppState from "../redux/appState";
 import { removeLocalStorage } from '../utils/LocalStorage';
 import { AUTH_LOCAL_STORAGE } from '../core/Constants';
+
 interface INavigation {
     classes: any;
 }
@@ -39,6 +40,7 @@ const Navigation = (props: INavigation): React.ReactElement => {
     const dispatch = useDispatch();
     const menuOpen = useSelector((state: AppState) => state.themeReducers.menuOpen);
     const darkMode = useSelector((state: AppState) => state.themeReducers.darkMode);
+    const routerTitle = useSelector((state: AppState) => state.themeReducers.routerTitle);
 
     const handleNavigationButton = (link: string) => {
         history.push(`/${link}`);
@@ -74,7 +76,7 @@ const Navigation = (props: INavigation): React.ReactElement => {
                         <MenuIcon />
                     </IconButton>
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
+                        {routerTitle}
                     </Typography>
 
 
