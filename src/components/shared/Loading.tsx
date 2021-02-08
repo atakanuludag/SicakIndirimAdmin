@@ -27,9 +27,12 @@ const Loading: React.FC = () => {
     
     const classes = useStyles();
     const loading = useSelector((state: AppState) => state.themeReducers.loading);
-
     return (
-        <Fade in={loading} >
+        <Fade in={loading} timeout={{
+            appear: 0,
+            enter: 0,
+            exit: 350
+        }}>
             <div className={classes.loadingWrapper}>
                 <div className={classes.loading}>
                     <CircularProgress />

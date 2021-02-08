@@ -19,7 +19,19 @@ const Theme = (props: ITheme): React.ReactElement => {
 
   const theme = createMuiTheme({
     palette: {
-      type: darkMode ? 'dark' : 'light'
+      type: darkMode ? 'dark' : 'light',
+      primary: {
+        light: '#63a4ff',
+        main: '#1976d2',
+        dark: '#004ba0',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#5472d3',
+        main: '#0d47a1',
+        dark: '#002171',
+        contrastText: '#fff',
+      },
     },
     typography: {
       fontFamily: [

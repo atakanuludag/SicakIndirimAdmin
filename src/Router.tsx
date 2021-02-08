@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch, useHistory, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, useHistory } from "react-router-dom";
 import PrivateRoute from './layouts/PrivateRoute';
 
 //Components
@@ -13,19 +13,24 @@ import AppState from "./redux/appState";
 import { getLocalStorage } from './utils/LocalStorage';
 import { AUTH_LOCAL_STORAGE } from './core/Constants';
 import { SuccessAction } from './redux/auth/authActions';
-import { axiosTokenInterceptor, axiosRequestLoading } from './core/Axios';
+import { AxiosTokenInterceptor, AxiosInterceptor } from './core/Axios';
+
+import Loading from './components/shared/Loading';
+
 
 const RouterComponent: React.FC = () => {
 
+    const history = useHistory();
     const dispatch = useDispatch();
+    
     const lsAuth = getLocalStorage(AUTH_LOCAL_STORAGE);
 
-    axiosRequestLoading(dispatch);
+    AxiosInterceptor(history, dispatch);
     
     if (lsAuth !== null) dispatch(SuccessAction(lsAuth));
     const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
     const token = useSelector((state: AppState) => state.authReducers.token);
-    if (token != null) axiosTokenInterceptor(token);
+    if (token != null) AxiosTokenInterceptor(token);
 
     console.log("Local Stroge Auth: ", lsAuth);
     console.log("Redux Token: ", token);
@@ -37,11 +42,8 @@ const RouterComponent: React.FC = () => {
                 else return <Redirect to="/dashboard" />
             }} />
             <Route path="/login"  component={Login} />
-
             <PrivateRoute path="/dashboard" component={Dashboard} title="Dashboard" />
             <PrivateRoute path="/categories" component={Category} title="Kategoriler" />
-            
-            
         </Router>
     );
 }

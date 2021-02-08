@@ -1,9 +1,9 @@
 import { Moment } from 'moment';
 
 export class CategoryForm {
-    id?: string;
-    title: string;
-    description: string;
+    public id?: string;
+    public title: string;
+    public description: string;
 
     constructor(option: CategoryForm) {
         this.id = option.id;
@@ -13,11 +13,11 @@ export class CategoryForm {
 }
 
 export default class CategoryItem {
-    id: number | string;
-    title: string;
-    description: string;
-    createdDate: Moment;
-    updatedDate: Moment;
+    public id: number | string;
+    public title: string;
+    public description: string;
+    public createdDate: Moment;
+    public updatedDate: Moment;
 
     constructor(option: CategoryItem) {
         this.id = option.id;

@@ -41,7 +41,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "api": "cd C:\\Users\\Atakan\\Documents\\workspace\\SicakIndirimApi && nest start --watch"
   },
   "eslintConfig": {
     "extends": [

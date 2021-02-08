@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Theme from './Theme';
-import Loading from './components/shared/Loading';
 import Router from './Router';
+import { BrowserRouter } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
     <Theme>
-      <Router />
+      <BrowserRouter><Router /></BrowserRouter>
     </Theme>
   );
 }

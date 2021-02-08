@@ -18,8 +18,6 @@ import { APP_URL } from '../core/Constants';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { SuccessAction } from '../redux/auth/authActions';
-import { setLocalStorage } from '../utils/LocalStorage';
-import { AUTH_LOCAL_STORAGE } from '../core/Constants';
 import AppState from '../redux/appState';
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +82,6 @@ const Login: React.FC = () => {
     
     Alerts.successAlert("Başarıyla giriş yapıldı.");
     dispatch(SuccessAction(ret));
-    setLocalStorage(AUTH_LOCAL_STORAGE, ret);
     history.push('/dashboard');
   }
 

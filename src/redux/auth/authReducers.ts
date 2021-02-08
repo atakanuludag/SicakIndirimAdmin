@@ -1,5 +1,7 @@
 import { ActionTypes, IAuthState, AuthActions } from "./authTypes";
 import IAuth from "../../interfaces/IAuth";
+import { setLocalStorage, removeLocalStorage } from '../../utils/LocalStorage';
+import { AUTH_LOCAL_STORAGE } from '../../core/Constants';
 
 //import { Action } from "redux";
 //import { act } from "react-dom/test-utils";
@@ -21,6 +23,7 @@ const reducer = (
 ): IAuthState => {
     switch (action.type) {
         case ActionTypes.USER_AUTH_SUCCESS:
+            setLocalStorage(AUTH_LOCAL_STORAGE, action.payload);
             return { 
                 ...state,
                 loggedIn: true,
@@ -28,6 +31,7 @@ const reducer = (
                 user: action.payload
             };
         case ActionTypes.USER_AUTH_FAILURE:
+            removeLocalStorage(AUTH_LOCAL_STORAGE);
             return { 
                 ...state, 
                 loggedIn: false, 
@@ -35,6 +39,7 @@ const reducer = (
                 user: {} as IAuth
             };
         case ActionTypes.USER_LOGOUT:
+            removeLocalStorage(AUTH_LOCAL_STORAGE);
             return { 
                 ...state, 
                 loggedIn: false, 

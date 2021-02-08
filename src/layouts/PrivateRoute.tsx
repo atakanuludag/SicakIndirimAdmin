@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Route, Redirect, RouteProps } from "react-router-dom";
-import Layout from '.'
+import Layout from './index'
 import { useDispatch, useSelector } from 'react-redux';
 import AppState from "../redux/appState";
 import { RouterTitleAction } from '../redux/theme/themeActions';
+import Loading from '../components/shared/Loading';
 
 interface IProps extends RouteProps {
     title: string;
@@ -16,13 +17,16 @@ const PrivateRoute = (props: IProps) => {
     const dispatch = useDispatch();
     const loggedIn: boolean = useSelector((state: AppState) => state.authReducers.loggedIn);
     const routerTitle = () => dispatch(RouterTitleAction(title));
-    
+
+   
+
+
     return (
         <Route {...rest} render={props => {
             routerTitle();
             return !loggedIn ?
                 <Redirect to="/login" />
-                : <Layout><Component {...props} /></Layout>
+                : <Layout><Loading /><Component {...props} /></Layout>
         }} />
 
     );
