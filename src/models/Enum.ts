@@ -1,6 +1,9 @@
 export enum ServiceStatus {
-    Up = 1,
-    Down,
-    Left,
-    Right,
+    Success,
+    Error
+}
+
+export enum UserRoles {
+    Admin = "admin",
+    User = "user"
 }

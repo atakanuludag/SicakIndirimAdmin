@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { ThemeLoadingAction } from '../redux/theme/themeActions';
 import { LogoutAction } from '../redux/auth/authActions';
 import { History } from 'history';
+import { VariantType } from 'notistack';
 
 const defaultOptions = {
     baseURL: API_URL,
@@ -16,9 +17,8 @@ const defaultOptions = {
 let instance = axios.create(defaultOptions);
 
 //https://stackoverflow.com/questions/51778456/how-to-add-global-loading-spin-effect-in-axios-interceptor-for-a-react-project
-//+ olarak servisten 401 geldiğinde otomatik login sayfasına atacağız.
 
-export const AxiosInterceptor = (history: History, dispatch: Dispatch) => {
+export const AxiosInterceptor = (history: History, dispatch: Dispatch, enqueueSnackbar: Function) => {
 
     instance.interceptors.request.use((config) => {
         dispatch(ThemeLoadingAction(true));
@@ -37,7 +37,7 @@ export const AxiosInterceptor = (history: History, dispatch: Dispatch) => {
             dispatch(ThemeLoadingAction(false));
             if(error.message === 'Network Error' && !error.response){
                 //https://bilot.group/articles/using-react-router-inside-axios-interceptors/
-                AxiosInterceptorMessage("Ağ hatası - API servisin çalıştığından emin olun.", error.message);
+                enqueueSnackbar(AxiosInterceptorMessage("Ağ hatası - API servisin çalıştığından emin olun.", error.message), { variant: "error" });
             }
             const status = error.response?.status;
             //const data = error.response?.data;
@@ -48,7 +48,7 @@ export const AxiosInterceptor = (history: History, dispatch: Dispatch) => {
                 history.push('/login');
 
             } else if(status !== 200){
-                AxiosInterceptorMessage("Serviste bir hata oluştu", error.message, status);
+                enqueueSnackbar(AxiosInterceptorMessage("Serviste bir hata oluştu", error.message, status), { variant: "error" });
             }
             
             return Promise.reject(error);

@@ -2,8 +2,6 @@ import axios from '../core/Axios';
 import CategoryItem, { CategoryForm } from '../models/CategoryItem';
 import moment from 'moment';
 
-//Todo: CategoryForm olarak değilde dto olarak değiştirebilirim.
-
 export default class CategoryService {
 
     private itemToModel = (item: any): CategoryItem => {
@@ -15,8 +13,6 @@ export default class CategoryService {
             updatedDate: moment(item.updatedDate)
         });
     }
-    //Servislerden dönen istekleri Enum olarak success, error gibi sonuçlarla model olarak döndürebiliriz.
-    //Dönen hatalarda ekrana uyarı daha kolay verdiririz vs.
     
     public getItems = async (): Promise<CategoryItem[]> => {
         try {

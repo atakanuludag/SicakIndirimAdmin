@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSnackbar } from 'notistack';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -43,10 +44,14 @@ const useStyles = makeStyles((theme) => ({
 const Login: React.FC = () => {
 
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
+
   const loggedIn = useSelector((state: AppState) => state.authReducers.loggedIn);
   if(loggedIn) history.push('/dashboard');
 
   const service = new AuthService();
+  const alert = new Alerts(enqueueSnackbar);
+  
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -60,8 +65,6 @@ const Login: React.FC = () => {
     setloginData({ ...loginData, [e.target.name]: e.target.value });
   }
 
-  //https://stackoverflow.com/questions/41930443/how-to-async-await-redux-thunk-actions
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -70,17 +73,17 @@ const Login: React.FC = () => {
     console.log("[Login] handleFormSubmit()", ret);
 
     if(ret === null) {
-      Alerts.errorAlert("Giriş yapılırken bir hata meydana geldi. Daha sonra tekrar deneyiniz.");
+      alert.errorAlert("Giriş yapılırken bir hata meydana geldi. Daha sonra tekrar deneyiniz.");
       return;
     }
 
     if(ret.roles.findIndex((role) => role === 'admin') < 0){
-      Alerts.errorAlert("Sadece adminler giriş yapabilir.");
+      alert.errorAlert("Sadece adminler giriş yapabilir.");
       window.location.href = APP_URL;
       return;
     }
     
-    Alerts.successAlert("Başarıyla giriş yapıldı.");
+    alert.successAlert("Başarıyla giriş yapıldı.");
     dispatch(SuccessAction(ret));
     history.push('/dashboard');
   }

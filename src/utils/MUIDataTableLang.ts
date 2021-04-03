@@ -4,7 +4,7 @@ const MUIDataTableLang = () => {
             body: {
                 noMatch: "Herhangi bir veri bulunamadı.",
                 toolTip: "Sıralama",
-                columnHeaderTooltip: (column: any) => `Sort for ${column.label}`
+                columnHeaderTooltip: (column: any) => `Sırala: ${column.label}`
             },
             pagination: {
                 next: "İleri",

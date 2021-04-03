@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './styles/global.scss';
-import { ToastContainer } from 'react-toastify';
+import { SnackbarProvider } from 'notistack';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -11,8 +11,7 @@ import redux from "./redux";
 
 ReactDOM.render(
   <Provider store={redux}>
-    <App />
-    <ToastContainer />
+    <SnackbarProvider autoHideDuration={3000}><App /></SnackbarProvider>
   </Provider>,
   document.getElementById('root')
 );
